@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 
 export const POST: APIRoute = async ({ request}) => {
     const formData = await request.formData();
-    const file = formData.get("file") as File;
+    const file = formData.get('file');
 
     console.log(file);
 
