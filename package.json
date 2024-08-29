@@ -11,9 +11,16 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.3",
+    "@astrojs/svelte": "^5.7.0",
     "@astrojs/tailwind": "^5.1.0",
     "astro": "^4.14.6",
+    "svelte": "^4.2.19",
+    "svelte-file-dropzone": "^2.0.7",
     "tailwindcss": "^3.4.10",
     "typescript": "^5.5.4"
+  },
+  "devDependencies": {
+    "flowbite": "^2.5.1",
+    "flowbite-svelte": "^0.46.15"
   }
 }
