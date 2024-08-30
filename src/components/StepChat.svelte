@@ -21,6 +21,8 @@
 
     loading = true;
 
+    answer = "";
+
     const question = event.target.question.value;
 
     const searchParams = new URLSearchParams();
@@ -28,24 +30,21 @@
     searchParams.append("question", question);
 
     try {
-      const res = await fetch(`/api/ask?${searchParams.toString()}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const eventSource = new EventSource(`/api/ask?${searchParams.toString()}`);
 
-      if (!res.ok) {
+      eventSource.onmessage = (event) => {
         loading = false;
-        console.error("Error sending question");
-        return;
-      }
+        const incomingData = JSON.parse(event.data);
 
-      const { response } = await res.json();
-      console.log(response);
-      answer = response;
+        if(incomingData === '__END__') {
+          eventSource.close();
+          return;
+        }
+
+        answer += incomingData;
+      };
     } catch (error) {
       setAppStatusError();
-      console.log(error);
     } finally {
       loading = false;
     }
