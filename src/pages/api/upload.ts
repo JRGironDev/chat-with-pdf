@@ -38,7 +38,7 @@ export const POST: APIRoute = async ({ request}) => {
 
     const {
         asset_id: id,
-        securel_url: url,
+        secure_url: url,
         pages
     } = result;
 
