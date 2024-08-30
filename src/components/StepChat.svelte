@@ -23,16 +23,15 @@
 
     const question = event.target.question.value;
 
+    const searchParams = new URLSearchParams();
+    searchParams.append("id", id);
+    searchParams.append("question", question);
+
     try {
-      const res = await fetch("/api/ask", {
-        method: "POST",
+      const res = await fetch(`/api/ask?${searchParams.toString()}`, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          id,
-          question,
-        }),
       });
 
       if (!res.ok) {
@@ -41,10 +40,12 @@
         return;
       }
 
-      const { answer: apiAnswer } = await res.json();
-      answer = apiAnswer;
+      const { response } = await res.json();
+      console.log(response);
+      answer = response;
     } catch (error) {
       setAppStatusError();
+      console.log(error);
     } finally {
       loading = false;
     }
@@ -58,18 +59,16 @@
       alt="PDF page"
       class="rounded w-full h-auto mb-4 aspect-[400/540]"
     />
-    console.loading(image)
   {/each}
 </div>
 
 <form class="mt-8" on:submit={handleSubmit}>
-  <Label for="question-input" class="block mb-2">Deja aquí tu pregunta</Label>
-  <Input id="question-input" required placeholder="¿De qué trata este PDF?"
-  ></Input>
+  <Label for="question" class="block mb-2">Deja aquí tu pregunta</Label>
+  <Input id="question" required placeholder="¿De qué trata este PDF?"></Input>
 </form>
 
 {#if loading}
-  <div class="flex justify-center items-center flex-col gap-y-2">
+  <div class="mt-10 flex justify-center items-center flex-col gap-y-2">
     <Spinner class="mt-4" />
     <p>Espere a que la respuesta llegue</p>
   </div>
