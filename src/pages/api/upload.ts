@@ -17,7 +17,7 @@ const uploadStream = async (buffer: Uint8Array, options: {
             .upload_stream(options, (error, result) => {
                 if (result) return resolve(result);
                 reject(error);
-            })
+            }).end(buffer);
     })
 }
 
@@ -38,7 +38,7 @@ export const POST: APIRoute = async ({ request}) => {
 
     const {
         asset_id: id,
-        url,
+        securel_url: url,
         pages
     } = result;
 
